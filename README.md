@@ -1,6 +1,10 @@
 SharpIRC
 ========
 
+ATTENTION : Please note that you will need a special LIB to get this beast to work .
+i am currently working on my own irc lib so i will upload its src code when i did that.
+Also the Client is not stable enough yet so it does not matter that the lib is missing here 
+
 Tiny IRC Client in C#
 
 
