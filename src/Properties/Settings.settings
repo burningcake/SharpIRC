@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BCIRCGUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="lastserver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">default server</Value>
+    </Setting>
+    <Setting Name="lastport" Type="System.String" Scope="User">
+      <Value Profile="(Default)">6667</Value>
+    </Setting>
+    <Setting Name="lastnick" Type="System.String" Scope="User">
+      <Value Profile="(Default)">prim nick</Value>
+    </Setting>
+    <Setting Name="lastchannel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#lobby</Value>
+    </Setting>
+    <Setting Name="TopMost" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="lastaltnick" Type="System.String" Scope="User">
+      <Value Profile="(Default)">alt nick</Value>
+    </Setting>
+    <Setting Name="opacity" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="shake" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="sound" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
