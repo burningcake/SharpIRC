@@ -26,8 +26,9 @@
 #endregion
 
 
-
+using System.Text.RegularExpressions;
 using System;
+using System.Text;
 using System.IO;
 using System.ComponentModel;
 using System.Data;
@@ -68,7 +69,6 @@ namespace SharpIRC
                     // p_client.UserNickChange -= UserLeft;
                 }
                 p_client = value;
-                //
                 p_client.UserJoined += UserJoined;
                 p_client.ChannelMessage += ChannelMessage;
                 p_client.UpdateUsers += UpdateUsers;
@@ -81,19 +81,13 @@ namespace SharpIRC
         }
         public void saveLog()
         {
-            // Create a SaveFileDialog to request a path and file name to save to.
             SaveFileDialog saveFile1 = new SaveFileDialog();
-
-            // Initialize the SaveFileDialog to specify the RTF extension for the file.
-            saveFile1.FileName = "sharpIRC - " + DateTime.Now + " - Log";
+            saveFile1.FileName = "sharpIRC -" + DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year  + "-Log";
             saveFile1.DefaultExt = "*.rtf";
             saveFile1.Filter = "RTF Files|*.rtf";
-
-            // Determine if the user selected a file name from the saveFileDialog.
             if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
                saveFile1.FileName.Length > 0)
             {
-                // Save the contents of the RichTextBox into the file.
                 ChatBox.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
             }
         }
@@ -124,13 +118,7 @@ namespace SharpIRC
 
             catch (Exception ex)
             {
-               
-              //  MessageBox.Show(ex.Message);
-                pingsuccess = 0;
-              //  ChatBox.AppendText(Environment.NewLine + "No internet connection .. Application will exit automatically in 5 seconds!");
-               // connectToolStripMenuItem.Enabled = false;
-               // System.Threading.Thread.Sleep(5000);
-              //  Application.Exit();
+                //Catch error
             }
 
         }
@@ -139,8 +127,10 @@ namespace SharpIRC
         {
             InitializeComponent();
         }
-        string programmversion = "0.1.2";
-        
+        string programmversion = "0.1.3";
+
+        #region (Beep Sounds)
+
         public void messagerevievedBeep()
         {
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();
@@ -176,6 +166,8 @@ namespace SharpIRC
             player.Play();
 
         }
+#endregion
+
         private void Shake(Form form)
         {
             var original = form.Location;
@@ -188,23 +180,21 @@ namespace SharpIRC
             }
             form.Location = original;
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void ircMain_Load(object sender, EventArgs e)
         {
             this.Width = 827;
             ping();
-
-            this.checkBox4.Checked = Properties.Settings.Default.sound;
-            this.checkBox3.Checked = Properties.Settings.Default.shake;
-            this.TopMost = this.checkBox1.Checked;
-           
-            this.trackBar1.Value = Properties.Settings.Default.opacity;
-            System.Windows.Forms.Form.ActiveForm.Opacity = ((double)(trackBar1.Value) / 100.0); this.checkBox1.Checked = Properties.Settings.Default.TopMost;
+            this.SoundsCheckBox.Checked = Properties.Settings.Default.sound;
+            this.ShakeCheckBox.Checked = Properties.Settings.Default.shake;
+            this.TopMost = this.TopMostCheckBox.Checked;
+            this.OpacityTrackBar.Value = Properties.Settings.Default.opacity;
+            System.Windows.Forms.Form.ActiveForm.Opacity = ((double)(OpacityTrackBar.Value) / 100.0); this.TopMostCheckBox.Checked = Properties.Settings.Default.TopMost;
             this.altNameTextbox.Text = Properties.Settings.Default.lastaltnick;
             this.urlTextbox.Text = Properties.Settings.Default.lastserver;
             this.portTextbox.Text = Properties.Settings.Default.lastport;
             this.nameTexbox.Text = Properties.Settings.Default.lastnick;
             this.channelTextbox.Text = Properties.Settings.Default.lastchannel;
-            this.Text = Application.ProductName +" " + programmversion; //+ " Using Username: " + Environment.UserName;
+            this.Text = Application.ProductName + " " + programmversion + " - Developed by: " + Application.CompanyName;
         }
         private void Start()
         {
@@ -223,7 +213,8 @@ namespace SharpIRC
                 Invoke(new _UserNickChange(UserNickChange), new object[] {
 				olduser,
 				newuser
-			});
+			}
+            );
                 return;
             }
 
@@ -241,13 +232,12 @@ namespace SharpIRC
                 return;
             }
 
-            output(message, user + " whispers to you", Color.Red, Color.HotPink);
-            if (checkBox3.Checked == true)
+            output(message, user + " whispers to you!", Color.Red, Color.HotPink);
+            if (ShakeCheckBox.Checked == true)
             {
                 Shake(this);
-
             }
-            if (checkBox4.Checked == true)
+            if (SoundsCheckBox.Checked == true)
             {
                 PMBeep();
             }
@@ -264,11 +254,11 @@ namespace SharpIRC
                 return;
             }
             output(message, user, Color.Red, Color.LimeGreen);
-            if (checkBox3.Checked == true)
+            if (ShakeCheckBox.Checked == true)
             {
                 Shake(this);
             }
-            if (checkBox4.Checked == true)
+            if (SoundsCheckBox.Checked == true)
             {
                 messagerevievedBeep();
             }
@@ -305,7 +295,7 @@ namespace SharpIRC
                 return;
             }
             output("The user " + user + " joined", "SYSTEM", Color.Red, Color.Silver);
-            if (checkBox4.Checked == true)
+            if (SoundsCheckBox.Checked == true)
             {
                 userJoinedBeep();
             }
@@ -341,6 +331,8 @@ namespace SharpIRC
         {
             if (e.KeyCode == Keys.Return)
             {
+                
+                MessageTextBox.Text = MessageTextBox.Text.Replace("@", "").Replace("%", "").Replace("~", "");
                 send(MessageTextBox.Text);
                 MessageTextBox.Focus();
                 MessageTextBox.Select(0, 0);
@@ -374,7 +366,7 @@ namespace SharpIRC
             else if (sentText.Length > 0 && sentText[0] == '/')
             {
                 client.SendRAW(sentText.Substring(1));
-                //MessageTextBox.Clear();
+                
             }
             else
             {
@@ -392,8 +384,6 @@ namespace SharpIRC
             ChatBox.AppendText(Environment.NewLine);
             ChatBox.SelectionColor = c1;
             ChatBox.SelectedText = "[" + DateTime.Now.ToShortTimeString() + "]" + " <" + user + ">: ";
-            // ChatBox.AppendText(Environment.NewLine + text);
-            //ChatBox.AppendText(Environment.NewLine);
             ChatBox.SelectionColor = c2;
             ChatBox.SelectedText = text;
             ChatBox.ScrollToCaret();
@@ -456,9 +446,9 @@ namespace SharpIRC
             Properties.Settings.Default.lastport = portTextbox.Text;
             Properties.Settings.Default.lastnick = nameTexbox.Text;
             Properties.Settings.Default.lastchannel = channelTextbox.Text;
-            Properties.Settings.Default.opacity = trackBar1.Value;
-            Properties.Settings.Default.shake = checkBox3.Checked;
-            Properties.Settings.Default.sound = checkBox4.Checked;
+            Properties.Settings.Default.opacity = OpacityTrackBar.Value;
+            Properties.Settings.Default.shake = ShakeCheckBox.Checked;
+            Properties.Settings.Default.sound = SoundsCheckBox.Checked;
             Properties.Settings.Default.Save();
             this.Width = 835;
             showOptionsToolStripMenuItem.Visible = true;
@@ -474,9 +464,9 @@ namespace SharpIRC
             this.portTextbox.Text = Properties.Settings.Default.lastport;
             this.nameTexbox.Text = Properties.Settings.Default.lastnick;
             this.channelTextbox.Text = Properties.Settings.Default.lastchannel;
-            this.checkBox4.Checked = Properties.Settings.Default.sound;
-            this.checkBox3.Checked = Properties.Settings.Default.shake;
-            this.trackBar1.Value = Properties.Settings.Default.opacity;
+            this.SoundsCheckBox.Checked = Properties.Settings.Default.sound;
+            this.ShakeCheckBox.Checked = Properties.Settings.Default.shake;
+            this.OpacityTrackBar.Value = Properties.Settings.Default.opacity;
             ChatBox.AppendText(Environment.NewLine + "Settings Restored!");
 
         }
@@ -498,7 +488,7 @@ namespace SharpIRC
         }
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true)
+            if (TopMostCheckBox.Checked == true)
             {
                 this.TopMost = true;
                 Properties.Settings.Default.TopMost = true;
@@ -506,13 +496,13 @@ namespace SharpIRC
             else
             {
                 this.TopMost = false;
-                checkBox1.Checked = false;
+                TopMostCheckBox.Checked = false;
                 Properties.Settings.Default.TopMost = false;
             }
         }
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (checkBox4.Checked == true)
+            if (SoundsCheckBox.Checked == true)
             {
                ConnectedBeep();
             }
@@ -546,7 +536,7 @@ namespace SharpIRC
                 statuslabel.Text = "disconnected... ";
                 ChatBox.Clear();
                 ChatBox.Text = creditsTextbox.Text;
-                if (checkBox4.Checked == true)
+                if (SoundsCheckBox.Checked == true)
                 {
                     DisconnectedBeep();
                 }
@@ -568,7 +558,7 @@ namespace SharpIRC
             MessageTextBox.Focus();
 
         }
-
+        
         private void usernamesListbox_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
@@ -580,19 +570,19 @@ namespace SharpIRC
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (trackBar1.Value == 0)
+            if (OpacityTrackBar.Value == 0)
             {
                 System.Windows.Forms.Form.ActiveForm.Opacity = 100;
-                trackBar1.Value = 100;
+                OpacityTrackBar.Value = 100;
 
             }
-            System.Windows.Forms.Form.ActiveForm.Opacity = ((double)(trackBar1.Value) / 100.0);
-            Properties.Settings.Default.opacity = trackBar1.Value;
+            System.Windows.Forms.Form.ActiveForm.Opacity = ((double)(OpacityTrackBar.Value) / 100.0);
+            Properties.Settings.Default.opacity = OpacityTrackBar.Value;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true)
+            if (TopMostCheckBox.Checked == true)
             {
 
                 Properties.Settings.Default.shake = true;
@@ -600,7 +590,7 @@ namespace SharpIRC
             else
             {
 
-                checkBox1.Checked = false;
+                TopMostCheckBox.Checked = false;
                 Properties.Settings.Default.shake = false;
             }
         }
@@ -615,7 +605,7 @@ namespace SharpIRC
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true)
+            if (TopMostCheckBox.Checked == true)
             {
 
                 Properties.Settings.Default.sound = true;
@@ -623,27 +613,13 @@ namespace SharpIRC
             else
             {
 
-                checkBox1.Checked = false;
+                TopMostCheckBox.Checked = false;
                 Properties.Settings.Default.sound = false;
             }
         }
-
-    
-        private void MessageTextBox_Click(object sender, EventArgs e)
-        {
-            MessageTextBox.Focus();
-            MessageTextBox.Select(0, 0);
-
-        }
-
-        private void bCIRCGUIToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void quickConnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (checkBox4.Checked == true)
+            if (SoundsCheckBox.Checked == true)
             {
                 ConnectedBeep();
             }
@@ -676,13 +652,51 @@ namespace SharpIRC
             if (!System.IO.File.Exists(filename))
                 System.IO.File.WriteAllText(filename, Properties.Resources.Changelog);
             System.Diagnostics.Process.Start(filename);
-            ChatBox.AppendText(Environment.NewLine + "Saved the chatlog successfully.");
+            
         }
 
         private void saveChatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveLog();
+            ChatBox.AppendText(Environment.NewLine + "Saved the chatlog successfully.");
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (PresetsComboBox.Text == "osh")
+            {
+                urlTextbox.Text = "irc.oldschoolhack.de";
+                portTextbox.Text = "6667";
+                channelTextbox.Text = "#oldschoolhack";
+
+            }
+            if (PresetsComboBox.Text == "rizon")
+            {
+                urlTextbox.Text = "irc.rizon.net";
+                portTextbox.Text = "6667";
+                channelTextbox.Text = "#lobby";
+            }
+            if (PresetsComboBox.Text == "openjoke")
+            {
+                urlTextbox.Text = "irc.openjoke.org";
+                portTextbox.Text = "6667";
+                channelTextbox.Text = "#A-R-E-S";
+            }
+        }
+
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ircServers sv = new ircServers();
+            sv.Show();
+        }
+
+        private void ircMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            client.Disconnect();
+        }
+
+      
         
 
     }

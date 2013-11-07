@@ -43,6 +43,7 @@
             this.bCIRCGUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,13 +65,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.SoundsCheckBox = new System.Windows.Forms.CheckBox();
+            this.ShakeCheckBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.OpacityTrackBar = new System.Windows.Forms.TrackBar();
+            this.AutoConnectCheckBox = new System.Windows.Forms.CheckBox();
+            this.TopMostCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.PresetsComboBox = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.altNameTextbox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -83,7 +85,7 @@
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OpacityTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.UserDropDown.SuspendLayout();
             this.SuspendLayout();
@@ -98,7 +100,6 @@
             this.MessageTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MessageTextBox.Size = new System.Drawing.Size(794, 20);
             this.MessageTextBox.TabIndex = 0;
-            this.MessageTextBox.Click += new System.EventHandler(this.MessageTextBox_Click);
             this.MessageTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MessageTextBox_KeyDown);
             // 
             // btnConnect
@@ -148,7 +149,7 @@
             // 
             this.urlTextbox.BackColor = System.Drawing.SystemColors.InfoText;
             this.urlTextbox.ForeColor = System.Drawing.SystemColors.Menu;
-            this.urlTextbox.Location = new System.Drawing.Point(7, 45);
+            this.urlTextbox.Location = new System.Drawing.Point(7, 85);
             this.urlTextbox.Name = "urlTextbox";
             this.urlTextbox.Size = new System.Drawing.Size(100, 20);
             this.urlTextbox.TabIndex = 5;
@@ -166,7 +167,7 @@
             // 
             this.channelTextbox.BackColor = System.Drawing.SystemColors.InfoText;
             this.channelTextbox.ForeColor = System.Drawing.SystemColors.Menu;
-            this.channelTextbox.Location = new System.Drawing.Point(7, 85);
+            this.channelTextbox.Location = new System.Drawing.Point(7, 127);
             this.channelTextbox.Name = "channelTextbox";
             this.channelTextbox.Size = new System.Drawing.Size(100, 20);
             this.channelTextbox.TabIndex = 7;
@@ -201,13 +202,13 @@
             this.bCIRCGUIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectToolStripMenuItem,
             this.disconnectToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.toolStripMenuItem2,
             this.saveChatToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.bCIRCGUIToolStripMenuItem.Name = "bCIRCGUIToolStripMenuItem";
             this.bCIRCGUIToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.bCIRCGUIToolStripMenuItem.Text = "IRC";
-            this.bCIRCGUIToolStripMenuItem.Click += new System.EventHandler(this.bCIRCGUIToolStripMenuItem_Click);
             // 
             // connectToolStripMenuItem
             // 
@@ -224,6 +225,14 @@
             this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.disconnectToolStripMenuItem.Text = "Disconnect";
             this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.toolStripMenuItem1.Text = "Servers";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -393,12 +402,12 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBox4);
-            this.groupBox1.Controls.Add(this.checkBox3);
+            this.groupBox1.Controls.Add(this.SoundsCheckBox);
+            this.groupBox1.Controls.Add(this.ShakeCheckBox);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.trackBar1);
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.OpacityTrackBar);
+            this.groupBox1.Controls.Add(this.AutoConnectCheckBox);
+            this.groupBox1.Controls.Add(this.TopMostCheckBox);
             this.groupBox1.Location = new System.Drawing.Point(827, 39);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(346, 167);
@@ -406,31 +415,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Main Options";
             // 
-            // checkBox4
+            // SoundsCheckBox
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Checked = true;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.Location = new System.Drawing.Point(7, 93);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(124, 17);
-            this.checkBox4.TabIndex = 5;
-            this.checkBox4.Text = "Notification Sounds?";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            this.SoundsCheckBox.AutoSize = true;
+            this.SoundsCheckBox.Checked = true;
+            this.SoundsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SoundsCheckBox.Location = new System.Drawing.Point(7, 93);
+            this.SoundsCheckBox.Name = "SoundsCheckBox";
+            this.SoundsCheckBox.Size = new System.Drawing.Size(124, 17);
+            this.SoundsCheckBox.TabIndex = 5;
+            this.SoundsCheckBox.Text = "Notification Sounds?";
+            this.SoundsCheckBox.UseVisualStyleBackColor = true;
+            this.SoundsCheckBox.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
-            // checkBox3
+            // ShakeCheckBox
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(7, 68);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(123, 17);
-            this.checkBox3.TabIndex = 4;
-            this.checkBox3.Text = "Shake on new msg?";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.ShakeCheckBox.AutoSize = true;
+            this.ShakeCheckBox.Checked = true;
+            this.ShakeCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShakeCheckBox.Location = new System.Drawing.Point(7, 68);
+            this.ShakeCheckBox.Name = "ShakeCheckBox";
+            this.ShakeCheckBox.Size = new System.Drawing.Size(123, 17);
+            this.ShakeCheckBox.TabIndex = 4;
+            this.ShakeCheckBox.Text = "Shake on new msg?";
+            this.ShakeCheckBox.UseVisualStyleBackColor = true;
+            this.ShakeCheckBox.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // label6
             // 
@@ -441,42 +450,43 @@
             this.label6.TabIndex = 3;
             this.label6.Text = "Opacity";
             // 
-            // trackBar1
+            // OpacityTrackBar
             // 
-            this.trackBar1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.trackBar1.LargeChange = 100;
-            this.trackBar1.Location = new System.Drawing.Point(5, 116);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(321, 45);
-            this.trackBar1.TabIndex = 2;
-            this.trackBar1.Value = 100;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.OpacityTrackBar.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.OpacityTrackBar.LargeChange = 100;
+            this.OpacityTrackBar.Location = new System.Drawing.Point(5, 116);
+            this.OpacityTrackBar.Maximum = 100;
+            this.OpacityTrackBar.Name = "OpacityTrackBar";
+            this.OpacityTrackBar.Size = new System.Drawing.Size(321, 45);
+            this.OpacityTrackBar.TabIndex = 2;
+            this.OpacityTrackBar.Value = 100;
+            this.OpacityTrackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
-            // checkBox2
+            // AutoConnectCheckBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(7, 44);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(93, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Autoconnect?";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.AutoConnectCheckBox.AutoSize = true;
+            this.AutoConnectCheckBox.Enabled = false;
+            this.AutoConnectCheckBox.Location = new System.Drawing.Point(7, 44);
+            this.AutoConnectCheckBox.Name = "AutoConnectCheckBox";
+            this.AutoConnectCheckBox.Size = new System.Drawing.Size(93, 17);
+            this.AutoConnectCheckBox.TabIndex = 1;
+            this.AutoConnectCheckBox.Text = "Autoconnect?";
+            this.AutoConnectCheckBox.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // TopMostCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(7, 20);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Topmost ?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.TopMostCheckBox.AutoSize = true;
+            this.TopMostCheckBox.Location = new System.Drawing.Point(7, 20);
+            this.TopMostCheckBox.Name = "TopMostCheckBox";
+            this.TopMostCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.TopMostCheckBox.TabIndex = 0;
+            this.TopMostCheckBox.Text = "Topmost ?";
+            this.TopMostCheckBox.UseVisualStyleBackColor = true;
+            this.TopMostCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.PresetsComboBox);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.altNameTextbox);
             this.groupBox2.Controls.Add(this.label4);
@@ -493,6 +503,20 @@
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Server";
+            // 
+            // PresetsComboBox
+            // 
+            this.PresetsComboBox.FormattingEnabled = true;
+            this.PresetsComboBox.Items.AddRange(new object[] {
+            "rizon",
+            "osh",
+            "openjoke"});
+            this.PresetsComboBox.Location = new System.Drawing.Point(9, 29);
+            this.PresetsComboBox.Name = "PresetsComboBox";
+            this.PresetsComboBox.Size = new System.Drawing.Size(121, 21);
+            this.PresetsComboBox.TabIndex = 15;
+            this.PresetsComboBox.Text = "presets";
+            this.PresetsComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -524,7 +548,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 68);
+            this.label3.Location = new System.Drawing.Point(6, 111);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 13);
             this.label3.TabIndex = 11;
@@ -542,7 +566,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 29);
+            this.label1.Location = new System.Drawing.Point(6, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 9;
@@ -596,14 +620,15 @@
             this.MaximizeBox = false;
             this.Name = "ircMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ircMain_FormClosing);
+            this.Load += new System.EventHandler(this.ircMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OpacityTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.UserDropDown.ResumeLayout(false);
@@ -641,7 +666,7 @@
         private System.Windows.Forms.ToolStripMenuItem showOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideOptionsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox TopMostCheckBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -651,19 +676,21 @@
         private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.TextBox creditsTextbox;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox AutoConnectCheckBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox altNameTextbox;
         private System.Windows.Forms.ContextMenuStrip UserDropDown;
         private System.Windows.Forms.ToolStripMenuItem whisperClick;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.TrackBar OpacityTrackBar;
+        private System.Windows.Forms.CheckBox ShakeCheckBox;
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox SoundsCheckBox;
         private System.Windows.Forms.ToolStripMenuItem quickConnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveChatToolStripMenuItem;
+        private System.Windows.Forms.ComboBox PresetsComboBox;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
